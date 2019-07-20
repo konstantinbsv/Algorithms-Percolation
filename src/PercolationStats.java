@@ -31,7 +31,6 @@ public class PercolationStats {
             percThreshold[currTrial] = (double) percTestRun.numberOfOpenSites()/(n*n); // save threshold (site vacancy ration) to array
 
         }
-        System.out.println("Monte Carlo simulation complete with " + trials + " trials on a " + n + "x" + n + " grid.\n");
     }
 
     // sample mean of percolation threshold
@@ -69,6 +68,7 @@ public class PercolationStats {
         PercolationStats percStats = new PercolationStats(gridSizeN, trials);
 
         // print results
+        //System.out.println("Monte Carlo simulation complete with " + trials + " trials on a " + gridSizeN + "x" + gridSizeN + " grid.\n");
         System.out.println("mean \t\t\t\t\t= " + percStats.mean());
         System.out.println("stddev \t\t\t\t\t= " + percStats.stddev());
         System.out.println("95% confidence interval = [" + percStats.confidenceLo() + ", " + percStats.confidenceHi() + "]");

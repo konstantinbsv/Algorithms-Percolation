@@ -11,6 +11,9 @@ public class Percolation {
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n){
+        if (n < 1)
+            throw new IllegalArgumentException("Grid size must be > 0");
+
         this.n = n; // save value for n*n grid
         grid = new boolean[n][n];   // all false (blocked) by default
 
@@ -72,6 +75,7 @@ public class Percolation {
     // a full site is an open site that can be connected to an open
     // site at the top via a chain of neighbouring
     public boolean isFull(int row, int col){
+        throwIfNotValid(row, col);
         return weightedQuickUF.connected(xyTo1D(row,col), 0); //0 is top virtual site
     }
 
@@ -100,9 +104,9 @@ public class Percolation {
     // Throws IndexOutOfBoundsException exception if the specified site is not valid
     private void throwIfNotValid(int row, int col){
         if (row <= 0 || row > n)
-            throw new IndexOutOfBoundsException("Row index i out of bounds");
+            throw new IllegalArgumentException("Row index i out of bounds");
         if (col <= 0 || col > n)
-            throw new IndexOutOfBoundsException("Column index i out of bounds");
+            throw new IllegalArgumentException("Column index i out of bounds");
     }
 
     // test client (optional)
