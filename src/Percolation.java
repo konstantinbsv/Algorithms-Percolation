@@ -56,7 +56,9 @@ public class Percolation {
     public boolean isFull(int row, int col)
 
     // returns the number of open sites
-    public int numberOfOpenSites()
+    public int numberOfOpenSites(){
+        return numOpenSites;
+    }
 
     // does the system percolate?
     public boolean percolates()
