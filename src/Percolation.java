@@ -2,7 +2,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-    private WeightedQuickUnionUF wquf;
+    private WeightedQuickUnionUF weightedQuickUF;
 
     private boolean[][] grid;
     private boolean percolates;
@@ -15,23 +15,13 @@ public class Percolation {
         grid = new boolean[n][n];   // all false (blocked) by default
 
         // Initialize Weighted QUF with n*n sites; add 2 extra spots for virtual roots
-        wquf = new WeightedQuickUnionUF(n*n+2);
+        weightedQuickUF = new WeightedQuickUnionUF(n*n+2);
 
     }
 
     // grid getter
     public boolean[][] getGrid(){
         return grid;
-    }
-
-    // roots array getter
-    public int[] getRoots(){
-        return roots;
-    }
-
-    // get specific root
-    public int getRoot(int rootId){
-        return roots[rootId];
     }
 
     /** opens the site (row, col)
@@ -47,25 +37,25 @@ public class Percolation {
 
         /* First and Last rows */
         if(row == 1) // if site to open is on first row
-            wquf.union(xyTo1D(row,col), 0); // union with top virtual site
+            weightedQuickUF.union(xyTo1D(row,col), 0); // union with top virtual site
         else
             if(isOpen(row-1, col)) // if site on previous is open
-                wquf.union(xyTo1D(row,col), xyTo1D(row-1,col));
+                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row-1,col));
 
         if(row == n) // if site to open is on last row
-            wquf.union(xyTo1D(row,col), n*n+1); // union with bottom virtual site
+            weightedQuickUF.union(xyTo1D(row,col), n*n+1); // union with bottom virtual site
         else
             if(isOpen(row+1, col)) // if site on next row is open
-                wquf.union(xyTo1D(row,col), xyTo1D(row+1,col));
+                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row+1,col));
 
         /* Left and Right side columns */
         if(col > 1) // if site is not on left-most column
             if(isOpen(row, col-1)) // if previous site on same row is open
-                wquf.union(xyTo1D(row,col), xyTo1D(row,col-1));
+                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row,col-1));
 
         if(col < n) // if site is not on right-most column
             if(isOpen(row, col+1)) // if next site on same row is open
-                wquf.union(xyTo1D(row,col), xyTo1D(row,col+1));
+                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row,col+1));
 
 
         grid[row - 1][col - 1] = true;  //Set this site as open in boolean grid
@@ -83,7 +73,7 @@ public class Percolation {
     // a full site is an open site that can be connected to an open
     // site at the top via a chain of neighbouring
     public boolean isFull(int row, int col){
-
+        return weightedQuickUF.connected(xyTo1D(row,col), 0); //0 is top virtual site
     }
 
     // returns the number of open sites
@@ -94,7 +84,7 @@ public class Percolation {
     // does the system percolate?
     // i.e., is there a full site in the bottom row?
     public boolean percolates(){
-
+        return weightedQuickUF.connected(0, n*n+1); // is top virtual connected to bottom virtual site
     }
 
     /**
