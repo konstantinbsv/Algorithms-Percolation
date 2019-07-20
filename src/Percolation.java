@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -5,7 +6,6 @@ public class Percolation {
     private WeightedQuickUnionUF weightedQuickUF;
 
     private boolean[][] grid;
-    private boolean percolates;
     private int n;
     private int numOpenSites = 0;
 
@@ -19,9 +19,10 @@ public class Percolation {
 
     }
 
-    // grid getter
-    public boolean[][] getGrid(){
-        return grid;
+
+    //Grid height/width, i.e., n getter
+    public int getN(){
+        return n;
     }
 
     /** opens the site (row, col)
@@ -34,6 +35,9 @@ public class Percolation {
      */
     public void open(int row, int col){
         throwIfNotValid(row, col);
+
+        if (isOpen(row,col))
+            return;
 
         /* First and Last rows */
         if(row == 1) // if site to open is on first row
@@ -107,7 +111,53 @@ public class Percolation {
     }
 
     // test client (optional)
-    public static void main(String[] args){
+    public static void main(String[] args) {
+
+        final  int N = 100; //size of grid
+
+        Percolation percTest = new Percolation(N);
+        int rowToOpen;
+        int colToOpen;
+
+        System.out.println("n: " + N);
+
+        while(!percTest.percolates()){
+            rowToOpen = StdRandom.uniform(1,N+1);
+            colToOpen = StdRandom.uniform(1, N+1);
+
+            percTest.open(rowToOpen, colToOpen);
+            System.out.println("Open sites: " + percTest.numberOfOpenSites());
+
+            System.out.println("n: " + percTest.getN());
+            System.out.println("isOpen: " + percTest.isOpen(rowToOpen, colToOpen));
+            System.out.println("isFull: " + percTest.isFull(rowToOpen, colToOpen));
+
+            System.out.println("Opening.... ");
+            percTest.open(rowToOpen, colToOpen);
+            System.out.println("isOpen: " + percTest.isOpen(rowToOpen, colToOpen));
+            System.out.println("isFull: " + percTest.isFull(rowToOpen, colToOpen));
+            System.out.println("Open sites: " + percTest.numberOfOpenSites());
+
+            // Draw a grid
+            System.out.println("Printing grid.....");
+            for (int i = 1; i <= percTest.getN(); i++) {
+                for (int j = 1; j <= percTest.getN(); j++) {
+                    if (percTest.isOpen(i, j))
+                        System.out.print("1");
+                    else
+                        System.out.print("0");
+                    System.out.print(" ");
+                }
+                System.out.println();
+            }
+            System.out.println("percolates = " + percTest.percolates());
+            System.out.println();
+
+        }
+
+        System.out.println("Percolation!");
+        System.out.println("Site vacancy ratio " + (double) percTest.numberOfOpenSites()/ Math.pow(percTest.getN(),2));
+
 
     }
 }
