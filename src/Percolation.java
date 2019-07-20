@@ -1,3 +1,4 @@
+
 public class Percolation {
     private boolean[][] grid;
     private boolean percolates;
@@ -31,12 +32,11 @@ public class Percolation {
         return roots[rootId];
     }
 
-    // opens the site (row, col) if it is not open already
+    // opens the site (row, col)
+    // By convention, the row and column indices are integers
+    // between 1 and n, where (1, 1) is the upper-left site
     public void open(int row, int col){
-        if (row <= 0 || row > n)
-            throw new IndexOutOfBoundsException("Row index i out of bounds");
-        if (col <= 0 || col > n)
-            throw new IndexOutOfBoundsException("Column index i out of bounds");
+        throwIfNotValid(row, col);
 
         grid[row - 1][col - 1] = true;
         numOpenSites++;
@@ -44,16 +44,17 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col){
-        if (row <= 0 || row > n)
-            throw new IndexOutOfBoundsException("Row index i out of bounds");
-        if (col <= 0 || col > n)
-            throw new IndexOutOfBoundsException("Column index i out of bounds");
+        throwIfNotValid(row, col);
 
         return grid[row - 1][col - 1];
     }
 
     // is the site (row, col) full?
-    public boolean isFull(int row, int col)
+    // a full site is an open site that can be connected to an open
+    // site at the top via a chain of neighbouring
+    public boolean isFull(int row, int col){
+
+    }
 
     // returns the number of open sites
     public int numberOfOpenSites(){
@@ -61,8 +62,21 @@ public class Percolation {
     }
 
     // does the system percolate?
-    public boolean percolates()
+    // i.e., is there a full site in the bottom row?
+    public boolean percolates(){
+
+    }
+
+    // Throws an exception if the specified site is not valid
+    private void throwIfNotValid(int row, int col){
+        if (row <= 0 || row > n)
+            throw new IndexOutOfBoundsException("Row index i out of bounds");
+        if (col <= 0 || col > n)
+            throw new IndexOutOfBoundsException("Column index i out of bounds");
+    }
 
     // test client (optional)
-    public static void main(String[] args)
+    public static void main(String[] args){
+
+    }
 }
