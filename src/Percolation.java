@@ -102,7 +102,7 @@ public class Percolation {
         return (row-1)*n + col;
     }
 
-    // Throws an exception if the specified site is not valid
+    // Throws IndexOutOfBoundsException exception if the specified site is not valid
     private void throwIfNotValid(int row, int col){
         if (row <= 0 || row > n)
             throw new IndexOutOfBoundsException("Row index i out of bounds");
