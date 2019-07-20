@@ -4,7 +4,8 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
     private Percolation percTestRun;
 
-    private int[] percThreshold; // percolation threshold for each run
+    private int trials; // store number of trials
+    private int[] percThreshold; // will store percolation threshold for each run
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials){
@@ -14,9 +15,10 @@ public class PercolationStats {
         if(trials <= 0)
             throw new  IndexOutOfBoundsException("Trials must be > 0");
 
+        this.trials = trials;
         percThreshold = new int[trials]; // one spot for each trial
-        int rowToOpen;
-        int colToOpen;
+        int rowToOpen;  // random row to open
+        int colToOpen;  // random column to open
 
         for (int currTrial = 1; currTrial <= trials ; currTrial++) {
             percTestRun = new Percolation(n); // new percolation object
@@ -44,11 +46,17 @@ public class PercolationStats {
     }
 
     // low endpoint of 95% confidence interval
-    public double confidenceLo()
+    public double confidenceLo(){
+        return mean() - (1.96 * Math.sqrt(stddev()))/Math.sqrt(trials);
+    }
 
     // high endpoint of 95% confidence interval
-    public double confidenceHi()
+    public double confidenceHi(){
+        return mean() + (1.96 * Math.sqrt(stddev()))/Math.sqrt(trials);
+    }
 
     // test client (see below)
-    public static void main(String[] args)
+    public static void main(String[] args){
+        
+    }
 }
