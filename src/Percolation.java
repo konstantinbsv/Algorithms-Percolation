@@ -3,10 +3,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-    private WeightedQuickUnionUF weightedQuickUF;
+    private final WeightedQuickUnionUF weightedQuickUF;
 
     private boolean[][] grid;
-    private int n;
+    private final int n;
     private int numOpenSites = 0;
 
     // creates n-by-n grid, with all sites initially blocked
@@ -19,11 +19,6 @@ public class Percolation {
 
     }
 
-
-    //Grid height/width, i.e., n getter
-    public int getN(){
-        return n;
-    }
 
     /** opens the site (row, col)
      * <p>
@@ -98,7 +93,7 @@ public class Percolation {
      * @param col column of site
      * @return  index for 1D array
      */
-    public int xyTo1D(int row, int col){
+    private int xyTo1D(int row, int col){
         return (row-1)*n + col;
     }
 
@@ -113,7 +108,7 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
 
-        final  int N = 100; //size of grid
+        final int N = 100; //size of grid
 
         Percolation percTest = new Percolation(N);
         int rowToOpen;
@@ -128,7 +123,7 @@ public class Percolation {
             percTest.open(rowToOpen, colToOpen);
             System.out.println("Open sites: " + percTest.numberOfOpenSites());
 
-            System.out.println("n: " + percTest.getN());
+            System.out.println("n: " + N);
             System.out.println("isOpen: " + percTest.isOpen(rowToOpen, colToOpen));
             System.out.println("isFull: " + percTest.isFull(rowToOpen, colToOpen));
 
@@ -140,8 +135,8 @@ public class Percolation {
 
             // Draw a grid
             System.out.println("Printing grid.....");
-            for (int i = 1; i <= percTest.getN(); i++) {
-                for (int j = 1; j <= percTest.getN(); j++) {
+            for (int i = 1; i <= N; i++) {
+                for (int j = 1; j <= N; j++) {
                     if (percTest.isOpen(i, j))
                         System.out.print("1");
                     else
@@ -156,7 +151,7 @@ public class Percolation {
         }
 
         System.out.println("Percolation!");
-        System.out.println("Site vacancy ratio " + (double) percTest.numberOfOpenSites()/ Math.pow(percTest.getN(),2));
+        System.out.println("Site vacancy ratio " + (double) percTest.numberOfOpenSites()/ Math.pow(N,2));
 
 
     }

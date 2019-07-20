@@ -2,10 +2,9 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private Percolation percTestRun;
 
-    private int trials; // store number of trials
-    private double[] percThreshold; // will store percolation threshold for each run
+    private final int trials; // store number of trials
+    private final double[] percThreshold; // will store percolation threshold for each run
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials){
@@ -21,7 +20,7 @@ public class PercolationStats {
         int colToOpen;  // random column to open
 
         for (int currTrial = 0; currTrial < trials ; currTrial++) {
-            percTestRun = new Percolation(n); // new percolation object
+            Percolation percTestRun = new Percolation(n); // new percolation object
 
             while(!percTestRun.percolates()){
                 rowToOpen = StdRandom.uniform(1,n+1);   // random num in interval [a;b)
@@ -60,8 +59,7 @@ public class PercolationStats {
         // Check for valid arguments
         if(args.length < 2){
             System.err.println("Requires two argument: <grid size> <trials>");
-            System.exit(1);
-        }
+          }
 
         // parse command line arguments
         int gridSizeN = Integer.parseInt(args[0]);
