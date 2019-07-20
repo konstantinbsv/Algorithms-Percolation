@@ -10,7 +10,7 @@ public class Percolation {
     private int numOpenSites = 0;
 
     // creates n-by-n grid, with all sites initially blocked
-    public Percolation(int n){
+    public Percolation(int n) {
         if (n < 1)
             throw new IllegalArgumentException("Grid size must be > 0");
 
@@ -31,41 +31,41 @@ public class Percolation {
      * @param row row of site to open
      * @param col column of site to open
      */
-    public void open(int row, int col){
+    public void open(int row, int col) {
         throwIfNotValid(row, col);
 
-        if (isOpen(row,col))
+        if (isOpen(row, col))
             return;
 
         /* First and Last rows */
-        if(row == 1) // if site to open is on first row
-            weightedQuickUF.union(xyTo1D(row,col), 0); // union with top virtual site
+        if (row == 1) // if site to open is on first row
+            weightedQuickUF.union(xyTo1D(row, col), 0); // union with top virtual site
         else
-            if(isOpen(row-1, col)) // if site on previous is open
-                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row-1,col));
+            if (isOpen(row-1, col)) // if site on previous is open
+                weightedQuickUF.union(xyTo1D(row, col), xyTo1D(row-1, col));
 
-        if(row == n) // if site to open is on last row
-            weightedQuickUF.union(xyTo1D(row,col), n*n+1); // union with bottom virtual site
+        if (row == n) // if site to open is on last row
+            weightedQuickUF.union(xyTo1D(row, col), n*n+1); // union with bottom virtual site
         else
-            if(isOpen(row+1, col)) // if site on next row is open
-                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row+1,col));
+            if (isOpen(row+1, col)) // if site on next row is open
+                weightedQuickUF.union(xyTo1D(row, col), xyTo1D(row+1, col));
 
         /* Left and Right side columns */
-        if(col > 1) // if site is not on left-most column
-            if(isOpen(row, col-1)) // if previous site on same row is open
-                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row,col-1));
+        if (col > 1) // if site is not on left-most column
+            if (isOpen(row, col-1)) // if previous site on same row is open
+                weightedQuickUF.union(xyTo1D(row, col), xyTo1D(row, col-1));
 
-        if(col < n) // if site is not on right-most column
-            if(isOpen(row, col+1)) // if next site on same row is open
-                weightedQuickUF.union(xyTo1D(row,col), xyTo1D(row,col+1));
+        if (col < n) // if site is not on right-most column
+            if (isOpen(row, col+1)) // if next site on same row is open
+                weightedQuickUF.union(xyTo1D(row, col), xyTo1D(row, col+1));
 
 
-        grid[row - 1][col - 1] = true;  //Set this site as open in boolean grid
+        grid[row - 1][col - 1] = true;  // Set this site as open in boolean grid
         numOpenSites++;
     }
 
     // is the site (row, col) open?
-    public boolean isOpen(int row, int col){
+    public boolean isOpen(int row, int col) {
         throwIfNotValid(row, col);
 
         return grid[row - 1][col - 1];
@@ -74,20 +74,20 @@ public class Percolation {
     // is the site (row, col) full?
     // a full site is an open site that can be connected to an open
     // site at the top via a chain of neighbouring
-    public boolean isFull(int row, int col){
+    public boolean isFull(int row, int col) {
         throwIfNotValid(row, col);
-        return weightedQuickUF.connected(xyTo1D(row,col), 0); //0 is top virtual site
+        return weightedQuickUF.connected(xyTo1D(row, col), 0); // 0 is top virtual site
     }
 
     // returns the number of open sites
-    public int numberOfOpenSites(){
+    public int numberOfOpenSites() {
         return numOpenSites;
     }
 
     // does the system percolate?
     // i.e., is there a full site in the bottom row?
-    public boolean percolates(){
-        return weightedQuickUF.connected(0, n*n+1); // is top virtual connected to bottom virtual site
+    public boolean percolates() {
+        return weightedQuickUF.connected(0,  n*n+1); // is top virtual connected to bottom virtual site
     }
 
     /**
@@ -97,12 +97,12 @@ public class Percolation {
      * @param col column of site
      * @return  index for 1D array
      */
-    private int xyTo1D(int row, int col){
+    private int xyTo1D(int row, int col) {
         return (row-1)*n + col;
     }
 
     // Throws IndexOutOfBoundsException exception if the specified site is not valid
-    private void throwIfNotValid(int row, int col){
+    private void throwIfNotValid(int row, int col) {
         if (row <= 0 || row > n)
             throw new IllegalArgumentException("Row index i out of bounds");
         if (col <= 0 || col > n)
@@ -112,7 +112,7 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
 
-        final int N = 100; //size of grid
+        final int N = 100; // size of grid
 
         Percolation percTest = new Percolation(N);
         int rowToOpen;
@@ -120,8 +120,8 @@ public class Percolation {
 
         System.out.println("n: " + N);
 
-        while(!percTest.percolates()){
-            rowToOpen = StdRandom.uniform(1,N+1);
+        while (!percTest.percolates()) {
+            rowToOpen = StdRandom.uniform(1, N+1);
             colToOpen = StdRandom.uniform(1, N+1);
 
             percTest.open(rowToOpen, colToOpen);
@@ -155,7 +155,7 @@ public class Percolation {
         }
 
         System.out.println("Percolation!");
-        System.out.println("Site vacancy ratio " + (double) percTest.numberOfOpenSites()/ Math.pow(N,2));
+        System.out.println("Site vacancy ratio " + (double) percTest.numberOfOpenSites()/ Math.pow(N, 2));
 
 
     }
