@@ -1,8 +1,11 @@
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
+
+    private WeightedQuickUnionUF wquf;
+
     private boolean[][] grid;
     private boolean percolates;
-    private int[] roots;
     private int n;
     private int numOpenSites = 0;
 
@@ -10,11 +13,10 @@ public class Percolation {
     public Percolation(int n){
         this.n = n; // save value for n*n grid
         grid = new boolean[n][n];   // all false (blocked) by default
-        roots = new int[n*n];       // n*n array for roots
-        // initialize roots[] array so that each square is its own root
-        for(int i = 0; i < n*n; i++){
-            roots[i] = i;
-        }
+
+        // Initialize Weighted QUF with n*n sites; add 2 extra spots for virtual roots
+        wquf = new WeightedQuickUnionUF(n*n+2);
+
     }
 
     // grid getter
@@ -32,13 +34,20 @@ public class Percolation {
         return roots[rootId];
     }
 
-    // opens the site (row, col)
-    // By convention, the row and column indices are integers
-    // between 1 and n, where (1, 1) is the upper-left site
+    /** opens the site (row, col)
+     * <p>
+     * By convention, the row and column indices are integers
+     * between 1 and n, where (1, 1) is the upper-left site
+     * <p/>
+     * @param row row of site to open
+     * @param col column of site to open
+     */
     public void open(int row, int col){
         throwIfNotValid(row, col);
 
-        grid[row - 1][col - 1] = true;
+
+
+        grid[row - 1][col - 1] = true;  //Set this site as open in boolean grid
         numOpenSites++;
     }
 
@@ -65,6 +74,17 @@ public class Percolation {
     // i.e., is there a full site in the bottom row?
     public boolean percolates(){
 
+    }
+
+    /**
+     * Given 2D site location, returns index for 1D roots array
+     *
+     * @param row row of site
+     * @param col column of site
+     * @return  index for 1D array
+     */
+    public int xyTo1D(int row, int col){
+        return (row-1)*n + col;
     }
 
     // Throws an exception if the specified site is not valid
