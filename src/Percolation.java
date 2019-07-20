@@ -16,6 +16,21 @@ public class Percolation {
         }
     }
 
+    // grid getter
+    public boolean[][] getGrid(){
+        return grid;
+    }
+
+    // roots array getter
+    public int[] getRoots(){
+        return roots;
+    }
+
+    // get specific root
+    public int getRoot(int rootId){
+        return roots[rootId];
+    }
+
     // opens the site (row, col) if it is not open already
     public void open(int row, int col)
 
