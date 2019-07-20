@@ -1,6 +1,6 @@
 # Algorithms-Percolation
 
-Estimate the percolation threshold of by Monte Carlo simulation.
+Estimate the percolation threshold by Monte Carlo simulation.
 
 ## Precolation.java
 Creates n-by-n grid and uses weighted quiz union-find in keeping track of open and full sites and for detextinf percolation
